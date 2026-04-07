@@ -4,7 +4,7 @@ Predicting solar physical quantities from patch-level embeddings of the **Surya 
 
 ## Overview
 
-The [Surya Foundation Model](https://arxiv.org/abs/2407.12816) produces 1280-dimensional embedding vectors for each 16×16-pixel patch of a solar image. This notebook investigates how much physical information about the Sun is encoded in those embeddings, and trains neural networks to decode it.
+The [Surya Foundation Model](https://arxiv.org/abs/2508.14112) produces 1280-dimensional embedding vectors for each 16×16-pixel patch of a solar image. This notebook investigates how much physical information about the Sun is encoded in those embeddings, and trains neural networks to decode it.
 
 Each patch is described by:
 - A **1280-dim embedding** from the Surya Foundation Model
@@ -88,4 +88,4 @@ pip install jupyter nbformat nbclient
 
 ## Reference
 
-Surya Foundation Model: [Yi et al. 2024, arXiv:2407.12816](https://arxiv.org/abs/2407.12816)
+Surya Foundation Model: [Roi et al. 2025, arXiv:2508.14112](https://arxiv.org/abs/2508.14112)
