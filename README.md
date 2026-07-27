@@ -1,6 +1,6 @@
 # Surya Embedding Regression
 
-Predicting solar physical quantities from patch-level embeddings of the **Surya Foundation Model** using MLP, Vanilla CNN, and Spatial ResNet architectures.
+Predicting solar physical quantities from patch-level embeddings of the **Surya Foundation Model** using MLP, Vanilla CNN, Spatial ResNet, and Neural Spline Flow architectures.
 
 ## Overview
 
@@ -35,6 +35,8 @@ The dataset contains **~32,000 on-disk patches** from a single solar observation
 | **9. Spatial ResNet** | 1×1 stem (1280 → 128 channels) + 6 residual blocks (3×3 convs with skip connections) → global pool → 4 outputs |
 | **10. CNN/ResNet evaluation** | Loss curves, scatter plots, stratified metrics, comparison table vs MLP |
 | **11. CNN spatial maps** | True vs predicted maps for all patches (including training) and test-only, for all 4 targets |
+| **12. Conditional Neural Spline Flow (NSF)** | Freeze VanillaCNN encoder; train a joint 4-D `zuko.flows.NSF` (6 transforms, 8 spline bins) conditioned on the 128-D encoder context; sample 2000 posteriors per patch; uncertainty maps, posterior violin plots for filament patches, calibration curves |
+| **13. Single-target 1-D NSFs** | Separate 1-D flows for AIA 193 and Mag flux; calibration comparison used to diagnose 4-D joint flow behaviour |
 
 ### Key results
 
@@ -52,6 +54,14 @@ Exploiting the spatial structure of the embedding field (5×5 patch neighbourhoo
 ### Residual structure
 
 The linear negative-slope structure visible in residual plots (predicted − true vs true) is a signature of **regression toward the mean**: the slope equals *r* − 1, where *r* is the Pearson correlation. A steeper slope (Mag flux, AIA 304) signals lower predictability from the embeddings, not a model defect.
+
+### Probabilistic modelling with Neural Spline Flows
+
+Beyond point-prediction, the notebook trains **conditional normalizing flows** (via [zuko](https://github.com/probabilistic-ml/zuko)) to learn the full posterior distribution `p(y | embedding neighbourhood)`. The VanillaCNN encoder is frozen and its 128-D output is used as the flow context. Both a joint 4-D flow (all targets simultaneously) and separate 1-D flows (AIA 193 and Mag flux individually) are trained and compared via calibration curves. This allows per-patch uncertainty quantification and reveals how well the Surya embeddings constrain each physical quantity.
+
+```bash
+pip install zuko
+```
 
 ---
 
